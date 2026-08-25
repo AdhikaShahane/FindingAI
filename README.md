@@ -5,11 +5,11 @@ FindingAI is a digital image-forensics platform designed to analyze whether an i
 
 Instead of relying on a single AI classifier, FindingAI combines multiple forensic and analytical techniques to examine an image from different perspectives and produces an **evidence-based forensic report**.
 
-> ⚠️ **Important:** FindingAI provides probabilistic forensic indicators, not absolute proof of whether an image is authentic or AI-generated. Results should be treated as supporting evidence and, where necessary, reviewed by a qualified human examiner.
+>  **Important:** FindingAI provides probabilistic forensic indicators, not absolute proof of whether an image is authentic or AI-generated. Results should be treated as supporting evidence and, where necessary, reviewed by a qualified human examiner.
 
 ---
 
-## 🎯 What Problem Does FindingAI Solve?
+## What Problem Does FindingAI Solve?
 
 AI-generated and manipulated images are becoming increasingly difficult to distinguish from genuine photographs.
 
@@ -28,11 +28,9 @@ FindingAI attempts to address this problem by combining **digital forensics, com
 
 # 🧠 How FindingAI Works
 
-FindingAI does not depend on one signal to make its assessment.
 
-Instead, an uploaded image passes through multiple analysis layers:
 
-```text
+
                     IMAGE UPLOAD
                          │
                          ▼
