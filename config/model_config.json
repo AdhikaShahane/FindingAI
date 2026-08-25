@@ -1,0 +1,34 @@
+{
+  "modelVersion": "Finding-AI-v2.4-ConvNeXt-ViT",
+  "architecture": "ConvNeXt-Large + EfficientNetV2-s + Vision Transformer (ViT-B/16) Ensemble",
+  "patchSize": 512,
+  "patchGrid": "3x3",
+  "defaultThresholds": {
+    "aiProbabilityThreshold": 62.0,
+    "authenticThreshold": 38.0,
+    "manipulationThreshold": 65.0,
+    "minEvidenceQuality": 55.0
+  },
+  "fusionWeights": {
+    "ml_detector": 0.40,
+    "digital_forensics": 0.25,
+    "metadata": 0.15,
+    "cv_consistency": 0.20
+  },
+  "calibratedVerdictLabels": [
+    "Likely AI Generated",
+    "Likely Authentic",
+    "Manipulated Photograph",
+    "AI + Manipulation Detected",
+    "Inconclusive"
+  ],
+  "generatorClasses": [
+    "Midjourney v6/v5",
+    "DALL·E 3/2",
+    "Stable Diffusion XL / Flux.1",
+    "Adobe Firefly",
+    "Imagen 3",
+    "NovelAI",
+    "Generic Diffusion Engine"
+  ]
+}

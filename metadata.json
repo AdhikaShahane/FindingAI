@@ -1,0 +1,6 @@
+{
+  "name": "Finding AI",
+  "description": "Advanced AI Image Forensics Platform — Multi-layer Evidence Fusion Engine, ELA, FFT spectrum analysis, and model feedback monitoring.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

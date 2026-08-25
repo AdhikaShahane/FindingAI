@@ -1,0 +1,26 @@
+{
+  "datasetName": "Finding-AI-Forensic-Benchmark-v2",
+  "version": "2.4",
+  "splits": {
+    "trainPercent": 70,
+    "validationPercent": 15,
+    "testPercent": 15
+  },
+  "authenticClasses": [
+    { "category": "DSLR/Mirrorless", "makes": ["Canon EOS R5", "Nikon Z9", "Sony A7 IV", "Fujifilm X-T5"] },
+    { "category": "Smartphone", "makes": ["Apple iPhone 15/14 Pro", "Google Pixel 8/7 Pro", "Samsung Galaxy S24/S23 Ultra"] },
+    { "category": "Scene Diversity", "subcategories": ["Portraits", "Landscapes", "Architecture", "Low-Light / Night", "Macro / Textures"] },
+    { "category": "Compression Levels", "types": ["Uncompressed RAW/TIFF", "High Quality JPEG (Q95-100)", "Compressed Web JPEG (Q60-85)"] }
+  ],
+  "syntheticClasses": [
+    { "engine": "Midjourney", "versions": ["v6.0", "v5.2", "v5.1", "Niji 6"] },
+    { "engine": "DALL-E", "versions": ["DALL-E 3", "DALL-E 2"] },
+    { "engine": "Stable Diffusion", "versions": ["SDXL 1.0", "SD 1.5", "Flux.1 Schnell/Dev", "ControlNet"] },
+    { "engine": "Adobe Firefly", "versions": ["Image 3 Model", "Image 2 Model"] },
+    { "engine": "Google Imagen", "versions": ["Imagen 3", "Imagen 2"] }
+  ],
+  "unseenGeneratorEvaluation": {
+    "heldOutTestEngines": ["Flux.1 Dev", "NovelAI Diffusion v3"],
+    "targetGeneralizationAccuracy": 88.5
+  }
+}
