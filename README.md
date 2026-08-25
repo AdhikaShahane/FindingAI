@@ -29,7 +29,7 @@ FindingAI attempts to address this problem by combining **digital forensics, com
 # 🧠 How FindingAI Works
 
 
-
+```text
 
                     IMAGE UPLOAD
                          │
