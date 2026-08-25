@@ -1,12 +1,70 @@
-# Finding AI — Advanced AI Image Forensics Platform
+# FindingAI 🔎
+### AI-Assisted Digital Image Forensics & Authenticity Analysis
 
-Finding AI is a full-stack digital forensics web platform designed for AI image detection, cryptographic chain of custody tracking, Error Level Analysis (ELA), 2D FFT spectral inspection, and model monitoring.
+FindingAI is a digital image-forensics platform designed to analyze whether an image shows characteristics associated with **AI generation, manipulation, or authentic camera capture**.
 
-## Features
+Instead of relying on a single AI classifier, FindingAI combines multiple forensic and analytical techniques to examine an image from different perspectives and produces an **evidence-based forensic report**.
 
-- **Multi-Layer Evidence Fusion Engine**: Combines Metadata Integrity (15%), Digital Forensics (30%), Computer Vision Anomaly Mapping (35%), and Geometric Continuity (20%).
-- **Synchronized Canvas Views**: View Original image, Sobel Edge Map, 2D FFT Frequency Spectrum, and Error Level Analysis (ELA Heatmap).
-- **Gemini 2.5 Flash Multimodal Vision Audit**: Server-side neural inspection for sub-pixel lighting vectors, reflection consistency, and anatomical coherence.
-- **Human Correction & Feedback Ledger**: Record classification corrections to audit logs and export CSV logs.
-- **Model Monitoring Dashboard**: Live metrics tracking active accuracy, F1 scores, dataset scale, and accuracy trend charts.
-- **Forensic Report Export & Watermarking**: Generate official forensic summary text reports and download watermarked images.
+> ⚠️ **Important:** FindingAI provides probabilistic forensic indicators, not absolute proof of whether an image is authentic or AI-generated. Results should be treated as supporting evidence and, where necessary, reviewed by a qualified human examiner.
+
+---
+
+## 🎯 What Problem Does FindingAI Solve?
+
+AI-generated and manipulated images are becoming increasingly difficult to distinguish from genuine photographs.
+
+Traditional visual inspection may not always reveal subtle signs of:
+
+- AI generation
+- Image manipulation
+- Synthetic textures
+- Unusual compression patterns
+- Metadata inconsistencies
+- Pixel-level anomalies
+
+FindingAI attempts to address this problem by combining **digital forensics, computer vision, metadata analysis, frequency analysis, and multimodal AI reasoning** into a single investigation workflow.
+
+---
+
+# 🧠 How FindingAI Works
+
+FindingAI does not depend on one signal to make its assessment.
+
+Instead, an uploaded image passes through multiple analysis layers:
+
+```text
+                    IMAGE UPLOAD
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │ Evidence Collection │
+              └──────────┬──────────┘
+                         │
+        ┌────────────────┼────────────────┐
+        ▼                ▼                ▼
+   Metadata            ELA             File Hash
+   Analysis          Analysis        & Integrity
+        │                │                │
+        └────────────────┼────────────────┘
+                         │
+             ┌───────────┴───────────┐
+             ▼                       ▼
+       Edge Analysis            FFT Analysis
+          (Sobel)              Frequency Domain
+             │                       │
+             └───────────┬───────────┘
+                         ▼
+               Semantic Analysis
+             & Physical Plausibility
+                         │
+                         ▼
+                Gemini Vision Audit
+                         │
+                         ▼
+                Evidence Fusion
+                         │
+                         ▼
+              FORENSIC ASSESSMENT
+                         │
+                         ▼
+                 FORENSIC REPORT
