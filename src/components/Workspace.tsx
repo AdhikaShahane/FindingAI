@@ -45,21 +45,27 @@ import {
   exportPrintableForensicReport,
 } from '../utils/forensics';
 import { runFusionEngine, DEFAULT_FUSION_WEIGHTS } from '../utils/fusionEngine';
+import { saveCase } from '../utils/caseManager';
+import { ForensicCase } from '../types';
 import { GeminiAuditModal } from './GeminiAuditModal';
 import { FeedbackModal } from './FeedbackModal';
 import { SemanticReasoningView } from './SemanticReasoningView';
+import { ForensicReportModal } from './ForensicReportModal';
 
 interface WorkspaceProps {
   onFeedbackSubmitted: () => void;
+  onCaseCreated?: (newCase: ForensicCase) => void;
 }
 
-export const Workspace: React.FC<WorkspaceProps> = ({ onFeedbackSubmitted }) => {
+export const Workspace: React.FC<WorkspaceProps> = ({ onFeedbackSubmitted, onCaseCreated }) => {
   const [dragActive, setDragActive] = useState(false);
   const [loading, setLoading] = useState(false);
   const [currentFile, setCurrentFile] = useState<File | null>(null);
   const [fileInfo, setFileInfo] = useState<FileInfo | null>(null);
   const [exifSummary, setExifSummary] = useState<EXIFSummary>({});
   const [fusionResult, setFusionResult] = useState<FusionResult | null>(null);
+  const [activeCase, setActiveCase] = useState<ForensicCase | null>(null);
+  const [isReportModalOpen, setIsReportModalOpen] = useState(false);
   const [activeCanvasTab, setActiveCanvasTab] = useState<CanvasTab>('original');
   const [selectedPatch, setSelectedPatch] = useState<PatchFinding | null>(null);
 
@@ -196,6 +202,13 @@ export const Workspace: React.FC<WorkspaceProps> = ({ onFeedbackSubmitted }) => 
 
       setSelectedPatch(fusion.mlResult.patches[0] || null);
 
+      // Save Forensic Case into the Case Management Ledger
+      const savedCase = saveCase(info, fusion, objectUrl);
+      setActiveCase(savedCase);
+      if (onCaseCreated) {
+        onCaseCreated(savedCase);
+      }
+
       setCustodySteps((prev) =>
         prev.map((s) => (s.id === '3' ? { ...s, done: true, timestamp: new Date().toLocaleTimeString() } : s))
       );
@@ -293,11 +306,16 @@ export const Workspace: React.FC<WorkspaceProps> = ({ onFeedbackSubmitted }) => 
   const triggerPrintReport = () => {
     if (!fileInfo || !fusionResult) return;
     exportPrintableForensicReport({
-      caseId: Math.floor(100000 + Math.random() * 900000).toString(),
+      caseId: activeCase?.caseId || Math.floor(100000 + Math.random() * 900000).toString(),
       generatedAt: new Date().toISOString(),
       fileInfo,
       fusionResult,
       exifSummary,
+      humanVerificationStatus: activeCase?.adminReviewStatus === 'Reviewed' ? 'VERIFIED' : 'NOT REVIEWED',
+      adminVerdict: activeCase?.adminVerdict,
+      adminVerifiedLabel: activeCase?.adminVerifiedLabel,
+      adminExplanation: activeCase?.adminExplanation,
+      adminId: activeCase?.adminId,
     });
   };
 
@@ -417,6 +435,43 @@ export const Workspace: React.FC<WorkspaceProps> = ({ onFeedbackSubmitted }) => 
       {/* Main Analysis Output */}
       {fileInfo && fusionResult && !loading && (
         <div className="space-y-6">
+          {/* Case Identification & Chain-of-Custody Header */}
+          {activeCase && (
+            <div className="bg-[#111827] border border-blue-500/30 rounded-2xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 shadow-md">
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-xl bg-blue-950/60 border border-blue-500/40 flex items-center justify-center text-blue-400 font-mono font-bold text-xs">
+                  FA
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-white font-mono">Case ID: {activeCase.caseId}</span>
+                    <span className="px-2 py-0.5 rounded bg-blue-950/60 border border-blue-500/40 text-blue-300 text-[10px] font-mono">
+                      CHAIN-OF-CUSTODY INDEXED
+                    </span>
+                    {activeCase.evidenceConflict && (
+                      <span className="px-2 py-0.5 rounded bg-amber-950/60 border border-amber-500/40 text-amber-300 text-[10px] font-bold">
+                        EVIDENCE CONFLICT FLAGGED
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-[11px] text-gray-400 font-mono">
+                    SHA-256: <span className="text-gray-300">{activeCase.fileHash.slice(0, 24)}...</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                <button
+                  onClick={() => setIsReportModalOpen(true)}
+                  className="px-3.5 py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow"
+                >
+                  <FileText className="w-3.5 h-3.5" />
+                  <span>Inspect Forensic Report</span>
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Verdict Banner */}
           <div className="bg-[#111827] border border-[#232D3F] rounded-2xl p-6 space-y-6">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-[#232D3F] pb-5">
@@ -918,6 +973,13 @@ export const Workspace: React.FC<WorkspaceProps> = ({ onFeedbackSubmitted }) => 
         fusionResult={fusionResult}
         onSubmitted={onFeedbackSubmitted}
       />
+
+      {isReportModalOpen && activeCase && (
+        <ForensicReportModal
+          caseData={activeCase}
+          onClose={() => setIsReportModalOpen(false)}
+        />
+      )}
     </div>
   );
 };

@@ -344,6 +344,92 @@ export interface MonitoringMetrics {
   categoryPerformance: { category: string; accuracy: number; samples: number }[];
 }
 
+export type UserRole = 'user' | 'admin';
+
+export interface UserProfile {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  badgeNumber?: string;
+  organization?: string;
+  avatar?: string;
+}
+
+export type AdminReviewStatus = 'Pending Review' | 'Reviewed' | 'Inconclusive';
+export type AdminVerdictType = 'AI Correct' | 'AI Incorrect' | 'Inconclusive';
+
+export interface ForensicCase {
+  caseId: string; // e.g. "FA-2026-000001"
+  userId: string;
+  userName: string;
+  userRole: UserRole;
+  uploadTimestamp: string;
+  filename: string;
+  fileHash: string; // SHA-256
+  md5Hash: string;
+  fileSize: string;
+  fileSizeBytes: number;
+  fileType: string;
+  resolution: string;
+  originalAiVerdict: VerdictLabelType;
+  aiProbability: number;
+  aiConfidence: "High" | "Medium" | "Low";
+  aiConfidenceNumeric: number;
+  evidenceScores: Record<string, number>;
+  fusionResult: FusionResult;
+  geminiFindings?: GeminiAuditResult | null;
+  semanticResult?: SemanticReasoningResult;
+  finalReport?: ForensicReportData;
+  originalImageUrl?: string;
+  adminReviewStatus: AdminReviewStatus;
+  adminVerdict?: AdminVerdictType;
+  adminVerifiedLabel?: VerdictLabelType;
+  adminExplanation?: string;
+  adminId?: string;
+  adminName?: string;
+  reviewTimestamp?: string;
+  evidenceConflict: boolean;
+  evidenceConflictDetails?: string;
+  isDemoCase?: boolean;
+}
+
+export interface AdminAuditRecord {
+  id: string;
+  adminId: string;
+  adminName: string;
+  action:
+    | 'ADMIN_LOGIN'
+    | 'USER_LOGIN'
+    | 'CASE_REVIEWED'
+    | 'VERDICT_CORRECTED'
+    | 'FEEDBACK_ADDED'
+    | 'DATASET_EXPORTED'
+    | 'REPORT_GENERATED'
+    | 'DEMO_DATA_LOADED'
+    | 'SECURITY_CHECK'
+    | 'THRESHOLD_ADJUSTED'
+    | 'ROLE_SWITCHED';
+  caseId?: string;
+  timestamp: string;
+  description: string;
+  ipAddress?: string;
+  severity?: 'INFO' | 'WARNING' | 'CRITICAL';
+}
+
+export interface VerifiedDatasetRecord {
+  case_id: string;
+  image_hash: string;
+  ai_verdict: string;
+  ai_probability: number;
+  ai_confidence: string;
+  admin_verdict: string;
+  correction_reason: string;
+  reviewed_by: string;
+  review_timestamp: string;
+  is_demo?: boolean;
+}
+
 export interface ForensicReportData {
   caseId: string;
   generatedAt: string;
@@ -352,4 +438,13 @@ export interface ForensicReportData {
   geminiAudit?: GeminiAuditResult | null;
   exifSummary: EXIFSummary;
   analystNotes?: string;
+  humanVerificationStatus: 'NOT REVIEWED' | 'VERIFIED';
+  adminVerdict?: AdminVerdictType;
+  adminVerifiedLabel?: VerdictLabelType;
+  adminExplanation?: string;
+  adminId?: string;
+  adminReviewTimestamp?: string;
+  evidenceConflict?: boolean;
+  evidenceConflictDetails?: string;
 }
+
