@@ -66,3 +66,9 @@ FindingAI attempts to address this problem by combining **digital forensics, com
                          │
                          ▼
                  FORENSIC REPORT
+
+<img width="853" height="793" alt="Image" src="https://github.com/user-attachments/assets/d46fdcc5-c5ae-448d-9fc4-576296d90b99" />
+
+
+
+<img width="853" height="793" alt="Image" src="https://github.com/user-attachments/assets/d46fdcc5-c5ae-448d-9fc4-576296d90b99" />
